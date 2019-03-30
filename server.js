@@ -9,7 +9,12 @@ app.post("/api/v1/auth", (req, res) => {
 });
 
 app.get("/api/v1/news", async (req, res) => {
-    let result  = await queries.getNews();
+    let result  = await queries.getNews(req.query.sportId);
+    res.status(200).json(result);
+});
+
+app.get("/api/v1/sports", async (req, res) => {
+    let result  = await queries.getSports();
     res.status(200).json(result);
 });
 

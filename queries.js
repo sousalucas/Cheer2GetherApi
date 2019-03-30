@@ -1,8 +1,18 @@
 const DBPool = require("./db")
 
-const getNews = () => {
+const getNews = (sportId) => {
     return new Promise((resolve, reject) => {
-        DBPool.query("SELECT * FROM core_news", (error, results) => {
+        let filter = sportId ? " WHERE sport_id = $1" : "";
+        DBPool.query("SELECT * FROM core_news" + filter, (sportId ? [sportId] : []), (error, results) => {
+            if (error) reject(error)
+            else resolve(results.rows)
+          })
+    })
+}
+
+const getSports = () => {
+    return new Promise((resolve, reject) => {
+        DBPool.query("SELECT * FROM core_sport  ", (error, results) => {
             if (error) reject(error)
             else resolve(results.rows)
           })
@@ -10,5 +20,6 @@ const getNews = () => {
 }
 
 module.exports = {
-    getNews: getNews
+    getNews: getNews,
+    getSports: getSports
 }
