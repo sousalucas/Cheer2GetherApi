@@ -1,0 +1,16 @@
+{
+  "name": "dazn-c2g-api",
+  "version": "1.0.0",
+  "description": "DAZN Hackaton API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "zip -r c2g-lambda * -x *.zip *.log"
+  },
+  "author": "C2G Team",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "pg": "^7.9.0"
+  }
+}
