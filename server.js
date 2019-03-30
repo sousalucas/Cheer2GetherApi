@@ -1,5 +1,6 @@
 const express = require("express");
 const DBPool = require("./db")
+const queries = require("./queries")
 const app = express();
 const PORT = 5000;
 
@@ -7,13 +8,9 @@ app.post("/api/v1/auth", (req, res) => {
     // Twitter ? Facebook ?
 });
 
-app.get("/api/v1/news", (req, res) => {
-    DBPool.query("SELECT * FROM core_news", (error, results) => {
-        if (error) {
-          throw error
-        }
-        return res.status(200).json(results.rows)
-      })
+app.get("/api/v1/news", async (req, res) => {
+    let result  = await queries.getNews();
+    res.status(200).json(result);
 });
 
 app.get("/api/v1/group/message", (req, res) => {
