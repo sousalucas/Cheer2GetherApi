@@ -23,7 +23,7 @@ const getUserInfo = (userId) => {
     return new Promise((resolve, reject) => {
         DBPool.query("SELECT * FROM core_user where id = $1", [userId], (error, results) => {
             if (error) reject(error)
-            else resolve(results.rows)
+            else resolve(results.rows && results.rows.length > 0 ? results.rows[0] : null)
           })
     })
 }
