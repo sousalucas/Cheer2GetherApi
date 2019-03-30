@@ -12,7 +12,16 @@ const getNews = (sportId) => {
 
 const getSports = () => {
     return new Promise((resolve, reject) => {
-        DBPool.query("SELECT * FROM core_sport  ", (error, results) => {
+        DBPool.query("SELECT * FROM core_sport", (error, results) => {
+            if (error) reject(error)
+            else resolve(results.rows)
+          })
+    })
+}
+
+const getUserInfo = (userId) => {
+    return new Promise((resolve, reject) => {
+        DBPool.query("SELECT * FROM core_user where id = $1", [userId], (error, results) => {
             if (error) reject(error)
             else resolve(results.rows)
           })
@@ -21,5 +30,6 @@ const getSports = () => {
 
 module.exports = {
     getNews: getNews,
-    getSports: getSports
+    getSports: getSports,
+    getUserInfo: getUserInfo
 }

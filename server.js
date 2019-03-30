@@ -18,13 +18,9 @@ app.get("/api/v1/sports", async (req, res) => {
     res.status(200).json(result);
 });
 
-app.get("/api/v1/group/message", (req, res) => {
-    DBPool.query("SELECT * FROM core_news", (error, results) => {
-        if (error) {
-          throw error
-        }
-        return res.status(200).json(results.rows)
-      })
+app.get("/api/v1/user/:id", async (req, res) => {
+    let result  = await queries.getUserInfo(req.params.id);
+    res.status(200).json(result);
 });
 
 app.post("/api/v1/group/reaction", (req, res) => {
