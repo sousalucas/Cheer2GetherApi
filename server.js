@@ -1,15 +1,18 @@
 const express = require("express");
-const DBPool = require("./db")
-const queries = require("./queries")
+const queries = require("./queries");
+const bodyParser = require("body-parser");
 const app = express();
 const PORT = 5000;
+
+
+app.use(bodyParser.json())
 
 app.post("/api/v1/auth", (req, res) => {
     // Twitter ? Facebook ?
 });
 
 app.get("/api/v1/news", async (req, res) => {
-    let result  = await queries.getNews(req.query.sportId);
+    let result  = await queries.getNews(req.query);
     res.status(200).json(result);
 });
 
@@ -23,22 +26,9 @@ app.get("/api/v1/user/:id", async (req, res) => {
     res.status(200).json(result);
 });
 
-app.post("/api/v1/group/reaction", (req, res) => {
-    DBPool.query("INSERT INTO core_reaction(id, message, created_at, news_id, user_id) VALUES (?,?,?,?,?)", (error, results) => {
-        if (error) {
-          throw error
-        }
-        return res.status(200).json(results.rows)
-      })
-});
-
-app.post("/api/v1/group/message", (req, res) => {
-    DBPool.query("SELECT * FROM core_news", (error, results) => {
-        if (error) {
-          throw error
-        }
-        return res.status(200).json(results.rows)
-      })
+app.post("/api/v1/group/message", async (req, res) => {
+    await queries.createGroupMessage(req.body.message, req.body.groupId, req.body.userId)
+    res.status(201).send();
 });
 
 app.listen(PORT, () => {

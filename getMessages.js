@@ -1,6 +1,6 @@
 const queries = require("./queries");
 
 exports.handler = async (event) => {
-    let result  = await queries.getUserInfo(event.params.path.id);
+    let result  = await queries.getMessagesByGroupId(event.params.path.id);
     return result;
 };
